@@ -66,7 +66,6 @@ $.material.init();
 				controller: "NutritionCtrl"
 			})
 			.otherwise({
-				
 			});
 	}
 })();
