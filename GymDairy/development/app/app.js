@@ -4,7 +4,17 @@ $.material.init();
 	'use strict'
 	
 	angular
-		.module('GymDiary', ['ngRoute'])
+		.module('GymDiary', [
+				'ngRoute',
+				'GymDiary.main', 
+				'GymDiary.about',
+				'GymDiary.contact',
+				'GymDiary.exercises',
+				'GymDiary.statistics',
+				'GymDiary.profile',
+				'GymDiary.playlist',
+				'GymDiary.nutrition'
+				])
 		.config(gymDiaryConfig)
 		.controller('MainCtrl', function($scope){
 			
