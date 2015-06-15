@@ -6,12 +6,11 @@
 		.config(configMain)
 		.controller('MainCtrl', MainCtrl);
 
-		MainCtrl.$inject = ['$scope'];
+		MainCtrl.$inject = ['$scope', '$rootScope'];
 		
-		function MainCtrl($scope){
-		
+		function MainCtrl($scope, $rootScope){
 			$scope.title = 'Main';
-		
+			$rootScope.curPath = 'main';
 		}
 
 		function configMain($routeProvider){

@@ -6,10 +6,11 @@ angular
 	.config( configContact )
 	.controller('ContactCtrl', ContactCtrl);
 	
-	ContactCtrl.$inject = ['$scope'];
+	ContactCtrl.$inject = ['$scope', '$rootScope'];
 	
-	function ContactCtrl($scope){
+	function ContactCtrl($scope, $rootScope){
 		$scope.title = 'Contact';
+		$rootScope.curPath = 'contact';
 	}
 	
 	function configContact($routeProvider){

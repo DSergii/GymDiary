@@ -6,10 +6,11 @@ angular
 	.config(['$routeProvider', configAbout])
 	.controller('AboutCtrl', AboutCtrl);
 	
-	AboutCtrl.$inject = ['$scope'];
+	AboutCtrl.$inject = ['$scope', '$rootScope'];
 	
-	function AboutCtrl($scope){
+	function AboutCtrl($scope, $rootScope){
 		$scope.title = 'Page About';
+		$rootScope.curPath = 'about';
 	}
 	
 	function configAbout($routeProvider){

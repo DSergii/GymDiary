@@ -23,6 +23,9 @@ header{
 .navbar .navbar-nav > li > a{
 	font-weight: 600;
 }
+.navbar .navbar-nav > .active > a,
+.navbar .navbar-nav > .active > a:hover,
+.navbar .navbar-nav > .active > a:focus{color: #FFC125;}
 .navbar .navbar-nav > li > a:hover{
 	color: #FFC125;
 	transition: color .5s;
