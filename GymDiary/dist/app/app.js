@@ -6,6 +6,8 @@ $.material.init();
 	angular
 		.module('GymDiary', [
 		'ngRoute',
+		'firebase',
+		'GymDiary.gymfirebase.srv',
 		'GymDiary.about',
 		'GymDiary.contact',
 		'GymDiary.main',
@@ -16,20 +18,78 @@ $.material.init();
 		'GymDiary.nutrition'
 		])
 		.config(gymDiaryConfig)
+		.constant('FIREBASE_URL', 'https://gymjournal.firebaseio.com/')
+		.controller('AppCtrl', AppCtrl)
 				
 	gymDiaryConfig.$inject = ['$routeProvider', '$locationProvider'];
+
+
+	function AppCtrl($scope, $rootScope){
+
+	}
 	
 	function gymDiaryConfig($routeProvider, $locationProvider){
 		$routeProvider.
 			otherwise({redirectTo: '/'});
-		$locationProvider.html5Mode({
-			enabled: true,
-			requireBase: false
-		});
+		$locationProvider.html5Mode(false);
 	}
 })();
 
 
+;(function(){
+'use strict'
+
+	angular
+		.module('GymDiary.gymfirebase.srv', ['firebase'])
+		.service('gymfirebase', gymfirebase);
+
+
+	gymfirebase.$inject = ['FIREBASE_URL', '$firebaseObject', '$firebaseArray'];
+
+
+	function gymfirebase(FIREBASE_URL, $firebaseObject, $firebaseArray){
+
+		var dbData = this;
+
+		/* подключение к БД */
+		var ref = new Firebase(FIREBASE_URL);
+
+		/* получение объекта из БД */
+		var refObj = $firebaseObject(ref);
+
+		/* получение массива из объекта БД */
+		var refArr = $firebaseArray(ref);
+
+		/*вернет только пользователей, все равно, что добавить users в конец url ->  https://gymjournal.firebaseio.com/users */
+		var usersRef = ref.child('users');
+
+		var usersArr = $firebaseArray(usersRef);
+
+		this.getUsers = function(){
+			return usersArr.$loaded(function(_data){
+				return _data;
+			});
+		};
+
+		this.addUser = function(_user){
+			usersRef.push(_user);
+		};
+
+		/* callback функция, возвращающая через промис объект из БД 
+		(можно обойтись без нее, но она нужна для синхронной загрузки) */
+		refObj.$loaded(function() {
+			dbData.dbObj = refObj;
+		});
+
+		/* тот же callback только в виде массива */
+		refArr.$loaded(function(){
+			dbData.dbArr = refArr;
+		});
+
+	}
+
+
+})();
 ;(function(){
 'use strict'
 
@@ -38,18 +98,37 @@ angular
 	.config(['$routeProvider', configAbout])
 	.controller('AboutCtrl', AboutCtrl);
 	
-	AboutCtrl.$inject = ['$scope', '$rootScope'];
+	AboutCtrl.$inject = ['$scope', '$rootScope', 'gymfirebase'];
 	
-	function AboutCtrl($scope, $rootScope){
-		$scope.title = 'Page About';
+	function AboutCtrl($scope, $rootScope, gymfirebase){
+
+		var vm = this;
+
+		vm.title = 'Page About';
 		$rootScope.curPath = 'about';
+
+		gymfirebase.getUsers().then(function(_data){
+			vm.users = _data;
+		});
+
+		vm.user = {
+			name: null,
+			age: 0
+		}
+
+		vm.addUser = function(){
+		 	gymfirebase.addUser(vm.user);
+		}
+			
+
 	}
 	
 	function configAbout($routeProvider){
 		$routeProvider.
 			when('/about', {
 				templateUrl: 'app/about/about.html',
-				controller: 'AboutCtrl'
+				controller: 'AboutCtrl',
+				controllerAs: 'vm'
 			});
 	}
 })();
@@ -113,15 +192,21 @@ angular
 		MainCtrl.$inject = ['$scope', '$rootScope'];
 		
 		function MainCtrl($scope, $rootScope){
-			$scope.title = 'Main';
-			$rootScope.curPath = 'main';
+
+			var vm = this;
+
+			vm.title = 'Main';
+			$rootScope.curPath = 'home';
+
+
 		}
 
 		function configMain($routeProvider){
 			$routeProvider
-				.when('/', {
+				.when('/home', {
 					templateUrl: 'app/main/main.html',
-					controller: 'MainCtrl'
+					controller: 'MainCtrl',
+					controllerAs: 'vm'
 				});
 		}
 

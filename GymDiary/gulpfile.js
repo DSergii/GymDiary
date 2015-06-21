@@ -58,6 +58,8 @@ var bc = './bower_components/';
 		bc+'angular-route/angular-route.js',
 		bc+'angular-sanitize/angular-sanitize.js',
 		bc+'angular-touch/angular-touch.js',
+		bc+'firebase/firebase.js',
+		bc+'angularfire/dist/angularfire.js',
 		])
 		.pipe(gulp.dest('./dist/libs/angular/'));
 	});

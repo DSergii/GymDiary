@@ -6,6 +6,8 @@ $.material.init();
 	angular
 		.module('GymDiary', [
 		'ngRoute',
+		'firebase',
+		'GymDiary.gymfirebase.srv',
 		'GymDiary.about',
 		'GymDiary.contact',
 		'GymDiary.main',
@@ -16,16 +18,20 @@ $.material.init();
 		'GymDiary.nutrition'
 		])
 		.config(gymDiaryConfig)
+		.constant('FIREBASE_URL', 'https://gymjournal.firebaseio.com/')
+		.controller('AppCtrl', AppCtrl)
 				
 	gymDiaryConfig.$inject = ['$routeProvider', '$locationProvider'];
+
+
+	function AppCtrl($scope, $rootScope){
+
+	}
 	
 	function gymDiaryConfig($routeProvider, $locationProvider){
 		$routeProvider.
 			otherwise({redirectTo: '/'});
-		$locationProvider.html5Mode({
-			enabled: true,
-			requireBase: false
-		});
+		$locationProvider.html5Mode(false);
 	}
 })();
 

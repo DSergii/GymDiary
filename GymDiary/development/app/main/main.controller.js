@@ -9,15 +9,21 @@
 		MainCtrl.$inject = ['$scope', '$rootScope'];
 		
 		function MainCtrl($scope, $rootScope){
-			$scope.title = 'Main';
-			$rootScope.curPath = 'main';
+
+			var vm = this;
+
+			vm.title = 'Main';
+			$rootScope.curPath = 'home';
+
+
 		}
 
 		function configMain($routeProvider){
 			$routeProvider
-				.when('/', {
+				.when('/home', {
 					templateUrl: 'app/main/main.html',
-					controller: 'MainCtrl'
+					controller: 'MainCtrl',
+					controllerAs: 'vm'
 				});
 		}
 

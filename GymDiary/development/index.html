@@ -5,6 +5,7 @@
 		<title>This is Demo Template Which Use sass, gulp and npm-server</title>
 		<meta name="viewport" content="width=device-width">
 		<link rel="stylesheet" href="css/style.min.css">
+		<base href="/">
 	</head>
 	<body>
 		<div class="container">
@@ -25,17 +26,17 @@
 				</div>
 				<div class="navbar-collapse collapse navbar-warning-collapse">
 					<ul class="nav navbar-nav">
-						<li ng-class="{'active' : curPath == 'home'}"><a href="/">Home</a></li>
-						<li ng-class="{'active' : curPath == 'about'}"><a href="/about">About</a></li>
-						<li ng-class="{'active' : curPath == 'contact'}"><a href="/contact">Contact</a></li>
-						<li ng-class="{'active' : curPath == 'exercises'}"><a href="/exercises">Exercises</a></li>
-						<li ng-class="{'active' : curPath == 'statistics'}"><a href="/statistics">Statistics</a></li>
-						<li ng-class="{'active' : curPath == 'profile'}"><a href="/profile">Profile</a></li>
-						<li ng-class="{'active' : curPath == 'playlist'}"><a href="/playlist">Playlist</a></li>
-						<li ng-class="{'active' : curPath == 'nutrition'}"><a href="/nutrition">Nutrition</a></li>
+						<li ng-class="{'active' : curPath == 'home'}"><a href="#/home">Home</a></li>
+						<li ng-class="{'active' : curPath == 'about'}"><a href="#/about">About</a></li>
+						<li ng-class="{'active' : curPath == 'contact'}"><a href="#/contact">Contact</a></li>
+						<li ng-class="{'active' : curPath == 'exercises'}"><a href="#/exercises">Exercises</a></li>
+						<li ng-class="{'active' : curPath == 'statistics'}"><a href="#/statistics">Statistics</a></li>
+						<li ng-class="{'active' : curPath == 'profile'}"><a href="#/profile">Profile</a></li>
+						<li ng-class="{'active' : curPath == 'playlist'}"><a href="#/playlist">Playlist</a></li>
+						<li ng-class="{'active' : curPath == 'nutrition'}"><a href="#/nutrition">Nutrition</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="" data-toggle="modal" data-target="#signin-dialog">Sign in</a></li>
+						<li><a href="" data-toggle="modal" data-target="#login-dialog">Log in</a></li>
 					</ul>
 				</div>
 			</div>
@@ -44,7 +45,7 @@
 				<div id="content">
 					<div class="row">
 						<div class="col-xs-12">
-							<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+							<div ng-show="curPath == 'home'" id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 								<ol class="carousel-indicators">
 									<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 									<li data-target="#carousel-example-generic" data-slide-to="1"></li>
@@ -55,25 +56,25 @@
 									<div class="item active">
 										<img src="../img/run_man_1920x1080.jpg" alt="run men">
 										<div class="carousel-caption">
-											<p>Приветствую тебя, спортсмен!!</p>
+											<h1>To keep a journal</h1>
 										</div>
 									</div>
 									<div class="item ">
 										<img src="../img/img02.jpg" alt="images">
 										<div class="carousel-caption">
-											<p>Давай тренироваться вместе</p>
+											<h1>Let`s go training</h1>
 										</div>
 									</div>
 									<div class="item">
 										<img src="../img/img03.jpg" alt="images">
 										<div class="carousel-caption">
-											<p>Я помогу тебе</p>
+											<h1>I will help you</h1>
 										</div>
 									</div>
 									<div class="item ">
 										<img src="../img/img04.jpg" alt="images">
 										<div class="carousel-caption">
-											<p>Алилуя!! :) </p>
+											<h1>Become stronger</h1>
 										</div>
 									</div>
 								</div>
@@ -86,9 +87,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" ng-show="curPath == 'home'">
 						<div class="col-xs-6 col-xs-offset-3 reg-btn">
-							<a href="#" class="btn btn-info">Зарегистрироваться</a>
+							<a href="#" class="btn btn-info" data-toggle="modal" data-target="#sign-dialog">Зарегистрироваться</a>
 						</div>
 					</div>
 				</div>
@@ -107,14 +108,17 @@
 	<!-- AngularJs vDependencies -->
 	<script src="libs/angular/angular.js"></script>
 	<script src="libs/angular/angular-route.js"></script>
+	<script src="libs/angular/firebase.js"></script>
+	<script src="libs/angular/angularfire.js"></script>
 	<!-- Our JS App Fies -->
 	<script src="app/app.js"></script>
-	<div class="modal" id="signin-dialog">
+	
+	<div class="modal" id="login-dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h4 class="modal-title">Регистрация</h4>
+					<h4 class="modal-title">Вход</h4>
 				</div>
 				<div class="modal-body">
 					<form role="form">
@@ -125,6 +129,32 @@
 						<div class="form-group">
 							<label for="m-pass">Пароль</label>
 							<input type="password" class="form-control" id="m-pass" placeholder="Введите ваш пароль">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+					<button type="button" class="btn btn-primary">Войти</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="sign-dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">Регистрация</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<label for="r-email">Email</label>
+							<input type="email" class="form-control" id="r-email" placeholder="Введите ваш email">
+						</div>
+						<div class="form-group">
+							<label for="r-pass">Пароль</label>
+							<input type="password" class="form-control" id="r-pass" placeholder="Введите ваш пароль">
 						</div>
 					</form>
 				</div>
