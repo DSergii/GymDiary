@@ -1,8 +1,8 @@
-# GymDiary
+# GymJournal
 Application for training journal
 
 <h1>Install</h1>
-$ git clone https://github.com/DSergii/GymDiary.git && cd GymDiary <br />
+$ git clone https://github.com/DSergii/GymJournal.git && cd GymJournal <br />
 $ bower install <br />
 $ npm install <br />
 $ gulp
